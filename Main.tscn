@@ -81,5 +81,29 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
+[node name="ResetButton" type="Button" parent="CanvasLayer"]
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = -48.0
+margin_top = -20.0
+text = "RESET"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="SyncLostLabel" type="Label" parent="CanvasLayer"]
+visible = false
+anchor_left = 1.0
+anchor_right = 1.0
+margin_left = -106.0
+margin_bottom = 14.0
+text = "Regaining sync..."
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
 [connection signal="pressed" from="CanvasLayer/ConnectionPanel/GridContainer/ServerButton" to="." method="_on_ServerButton_pressed"]
 [connection signal="pressed" from="CanvasLayer/ConnectionPanel/GridContainer/ClientButton" to="." method="_on_ClientButton_pressed"]
+[connection signal="pressed" from="CanvasLayer/ResetButton" to="." method="_on_ResetButton_pressed"]

@@ -39,6 +39,7 @@ config/icon="res://icon.png"
 [autoload]
 
 SyncManager="*res://addons/godot-rollback-netcode/SyncManager.gd"
+SyncDebugger="*res://addons/godot-rollback-netcode/SyncDebugger.gd"
 
 [editor_plugins]
 
