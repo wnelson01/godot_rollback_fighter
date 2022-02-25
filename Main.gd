@@ -6,6 +6,10 @@ onready var port_field = $CanvasLayer/ConnectionPanel/GridContainer/PortField
 onready var message_label = $CanvasLayer/MessageLabel
 onready var sync_lost_label = $CanvasLayer/SyncLostLabel
 
+const LOG_FILE_DIRECTORY = 'user://detailed_logs'
+
+var logging_enabled := true
+
 func _ready() -> void:
 	get_tree().connect("network_peer_connected", self, "_on_network_peer_connected")
 	get_tree().connect("network_peer_disconnected", self, "_on_network_peer_disconnected")
@@ -63,9 +67,28 @@ func _on_ResetButton_pressed() -> void:
 
 func _on_SyncManager_sync_started() -> void:
 	message_label.text = "Started!"
+	
+	if logging_enabled:
+		var dir = Directory.new()
+		if not dir.dir_exists(LOG_FILE_DIRECTORY):
+			dir.make_dir(LOG_FILE_DIRECTORY)
+		
+		var datetime = OS.get_datetime(true)
+		var log_file_name = "%04d%02d%02d-%02d%02d%02d-peer-%d.log" % [
+			datetime['year'],
+			datetime['month'],
+			datetime['day'],
+			datetime['hour'],
+			datetime['minute'],
+			datetime['second'],
+			get_tree().get_network_unique_id(),
+		]
+		
+		SyncManager.start_logging(LOG_FILE_DIRECTORY + '/' + log_file_name)
 
 func _on_SyncManager_sync_stopped() -> void:
-	pass
+	if logging_enabled:
+		SyncManager.stop_logging()
 
 func _on_SyncManager_sync_lost() -> void:
 	sync_lost_label.visible = true
