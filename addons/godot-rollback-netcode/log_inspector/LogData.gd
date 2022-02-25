@@ -12,10 +12,10 @@ class StateData:
 	func _init(_tick: int, _state: Dictionary) -> void:
 		tick = _tick
 		state = _state
-		state_hash = state.hash()
+		state_hash = _state['$']
 	
 	func compare_state(peer_id: int, peer_state: Dictionary) -> bool:
-		if state_hash == peer_state.hash():
+		if state_hash == peer_state['$']:
 			return true
 		
 		mismatches[peer_id] = peer_state
@@ -79,6 +79,7 @@ var frame_counter := {}
 var start_time: int
 var end_time: int
 
+var match_info := {}
 var input := {}
 var state := {}
 var frames := {}
@@ -110,6 +111,7 @@ func clear() -> void:
 	max_frame = 0
 	start_time = 0
 	end_time = 0
+	match_info.clear()
 	input.clear()
 	state.clear()
 	frames.clear()
@@ -145,6 +147,9 @@ func is_loading() -> bool:
 	_loader_mutex.unlock()
 	return value
 
+func _thread_print(msg) -> void:
+	print(msg)
+
 func _loader_thread_function(data: Array) -> void:
 	var file: File = data[0]
 	var path: String = data[1]
@@ -162,12 +167,13 @@ func _loader_thread_function(data: Array) -> void:
 		
 		var json_result: JSONParseResult = JSON.parse(line)
 		if json_result.error != OK:
-			print ("Error parsing JSON in %s on line %s: %s" % [path, line_number, line])
+			call_deferred("_thread_print", "Error parsing JSON in %s on line %s: %s" % [path, line_number, line])
 			continue
 		
 		if header == null:
 			if json_result.result['log_type'] == Logger.LogType.HEADER:
 				header = json_result.result
+				
 				header['peer_id'] = int(header['peer_id'])
 				if header['peer_id'] in peer_ids:
 					file.close()
@@ -175,6 +181,16 @@ func _loader_thread_function(data: Array) -> void:
 					call_deferred("emit_signal", "load_error", "Log file has data for peer_id %s, which is already loaded" % header['peer_id'])
 					_set_loading(false)
 					return
+				
+				var header_match_info = header.get('match_info', {})
+				if match_info.size() > 0 and match_info.hash() != header_match_info.hash():
+					file.close()
+					call_deferred("emit_signal", "data_updated")
+					call_deferred("emit_signal", "load_error", "Log file for peer_id %s has match info that doesn't match already loaded data" % header['peer_id'])
+					_set_loading(false)
+					return
+				else:
+					match_info = header_match_info
 				
 				var peer_id = header['peer_id']
 				peer_ids.append(peer_id)
@@ -215,7 +231,6 @@ func _add_log_entry(log_entry: Dictionary, peer_id: int) -> void:
 				input_data = input[tick]
 				if not input_data.compare_input(peer_id, log_entry['input']) and not tick in mismatches:
 					mismatches.append(tick)
-					print ("Input mismatch on tick: %s" % tick)
 		
 		Logger.LogType.STATE:
 			var state_data: StateData
@@ -226,7 +241,6 @@ func _add_log_entry(log_entry: Dictionary, peer_id: int) -> void:
 				state_data = state[tick]
 				if not state_data.compare_state(peer_id, log_entry['state']) and not tick in mismatches:
 					mismatches.append(tick)
-					print ("State mismatch on tick: %s" % tick)
 		
 		Logger.LogType.FRAME:
 			log_entry.erase('log_type')

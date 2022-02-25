@@ -14,7 +14,7 @@ var show_rollback_ticks := true
 var max_rollback_ticks := 15
 
 const FRAME_TYPE_COLOR = {
-	Logger.FrameType.INTERFRAME: Color(0.7, 0.7, 0.7),
+	Logger.FrameType.INTERFRAME: Color(0.3, 0.3, 0.3),
 	Logger.FrameType.TICK: Color(0.0, 0.75, 0.0),
 	Logger.FrameType.INTERPOLATION_FRAME: Color(0.0, 0.0, 0.5),
 }
@@ -40,6 +40,9 @@ func set_log_data(_log_data: LogData) -> void:
 	log_data = _log_data
 
 func refresh_from_log_data() -> void:
+	if log_data.is_loading():
+		return
+	
 	# Remove any invalid peers from network_arrow_peers
 	for peer_id in network_arrow_peers:
 		if not peer_id in log_data.peer_ids:
@@ -224,7 +227,7 @@ func _draw_network_arrows(start_positions: Dictionary, end_positions: Dictionary
 		draw_primitive(points, colors, PoolVector2Array())
 
 func _draw() -> void:
-	if log_data == null:
+	if log_data == null or log_data.is_loading():
 		return
 	var peer_count = log_data.peer_ids.size()
 	if peer_count == 0:
