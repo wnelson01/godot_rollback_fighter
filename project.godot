@@ -40,6 +40,7 @@ config/icon="res://icon.png"
 
 SyncManager="*res://addons/godot-rollback-netcode/SyncManager.gd"
 SyncDebugger="*res://addons/godot-rollback-netcode/SyncDebugger.gd"
+SyncReplay="*res://addons/godot-rollback-netcode/SyncReplay.gd"
 
 [editor_plugins]
 
@@ -58,6 +59,7 @@ sync_debug={
 rollback/classes/message_serializer="res://CustomMessageSerializer.gd"
 rollback/debug/rollback_ticks=4
 rollback/debug/random_rollback_ticks=10
+rollback/log_inspector/replay_match_scene_path="res://Main.tscn"
 
 [physics]
 

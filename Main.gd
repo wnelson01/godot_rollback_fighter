@@ -5,6 +5,7 @@ onready var host_field = $CanvasLayer/ConnectionPanel/GridContainer/HostField
 onready var port_field = $CanvasLayer/ConnectionPanel/GridContainer/PortField
 onready var message_label = $CanvasLayer/MessageLabel
 onready var sync_lost_label = $CanvasLayer/SyncLostLabel
+onready var reset_button = $CanvasLayer/ResetButton
 
 const LOG_FILE_DIRECTORY = 'user://detailed_logs'
 
@@ -68,7 +69,7 @@ func _on_ResetButton_pressed() -> void:
 func _on_SyncManager_sync_started() -> void:
 	message_label.text = "Started!"
 	
-	if logging_enabled:
+	if logging_enabled and not SyncReplay.active:
 		var dir = Directory.new()
 		if not dir.dir_exists(LOG_FILE_DIRECTORY):
 			dir.make_dir(LOG_FILE_DIRECTORY)
@@ -104,3 +105,7 @@ func _on_SyncManager_sync_error(msg: String) -> void:
 	if peer:
 		peer.close_connection()
 	SyncManager.clear_peers()
+
+func setup_match_for_replay(my_peer_id: int, peer_ids: Array, match_info: Dictionary) -> void:
+	connection_panel.visible = false
+	reset_button.visible = false
