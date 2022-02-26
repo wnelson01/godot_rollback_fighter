@@ -35,7 +35,9 @@ func _network_process(input: Dictionary) -> void:
 func _save_state() -> Dictionary:
 	return {
 		position = position,
+		speed = speed,
 	}
 
 func _load_state(state: Dictionary) -> void:
 	position = state['position']
+	speed = state['speed']
