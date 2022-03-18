@@ -6,8 +6,8 @@ const input_path_mapping := {
 }
 
 enum HeaderFlags {
-	HAS_INPUT_VECTOR = 0x01,
-	DROP_BOMB = 0x02,
+	HAS_INPUT_VECTOR = 1 << 0, # Bit 0
+	DROP_BOMB        = 1 << 1, # Bit 1
 }
 
 var input_path_mapping_reverse := {}
