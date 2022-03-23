@@ -13,6 +13,6 @@ texture = ExtResource( 1 )
 
 [node name="ExplosionTimer" type="Node" parent="."]
 script = ExtResource( 3 )
-wait_ticks = 60
+wait_ticks = 30
 
 [connection signal="timeout" from="ExplosionTimer" to="." method="_on_ExplosionTimer_timeout"]
