@@ -87,7 +87,7 @@ func _on_SyncManager_sync_started() -> void:
 			datetime['hour'],
 			datetime['minute'],
 			datetime['second'],
-			get_tree().get_network_unique_id(),
+			SyncManager.network_adaptor.get_network_unique_id(),
 		]
 		
 		SyncManager.start_logging(LOG_FILE_DIRECTORY + '/' + log_file_name)
