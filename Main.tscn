@@ -1,7 +1,8 @@
-[gd_scene load_steps=3 format=2]
+[gd_scene load_steps=4 format=2]
 
 [ext_resource path="res://Main.gd" type="Script" id=1]
 [ext_resource path="res://Player.tscn" type="PackedScene" id=2]
+[ext_resource path="res://addons/godot-rollback-netcode/NetworkRandomNumberGenerator.gd" type="Script" id=3]
 
 [node name="Main" type="Node2D"]
 script = ExtResource( 1 )
@@ -128,6 +129,9 @@ position = Vector2( 229, 316 )
 
 [node name="ClientPlayer" parent="." instance=ExtResource( 2 )]
 position = Vector2( 769, 320 )
+
+[node name="Johnny" type="Node" parent="."]
+script = ExtResource( 3 )
 
 [connection signal="pressed" from="CanvasLayer/MainMenu/LocalButton" to="." method="_on_LocalButton_pressed"]
 [connection signal="pressed" from="CanvasLayer/MainMenu/OnlineButton" to="." method="_on_OnlineButton_pressed"]

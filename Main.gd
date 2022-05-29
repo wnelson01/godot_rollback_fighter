@@ -9,6 +9,7 @@ onready var port_field = $CanvasLayer/ConnectionPanel/GridContainer/PortField
 onready var message_label = $CanvasLayer/MessageLabel
 onready var sync_lost_label = $CanvasLayer/SyncLostLabel
 onready var reset_button = $CanvasLayer/ResetButton
+onready var johnny = $Johnny
 
 const LOG_FILE_DIRECTORY = 'user://detailed_logs'
 
@@ -25,6 +26,7 @@ func _ready() -> void:
 	SyncManager.connect("sync_error", self, "_on_SyncManager_sync_error")
 
 func _on_ServerButton_pressed() -> void:
+	johnny.randomize()
 	var peer = NetworkedMultiplayerENet.new()
 	peer.create_server(int(port_field.text), 1)
 	get_tree().network_peer = peer
@@ -52,9 +54,16 @@ func _on_network_peer_connected(peer_id: int):
 	
 	if get_tree().is_network_server():
 		message_label.text = "Starting..."
+		rpc("setup_match", {mother_seed = johnny.get_seed()})
+		
 		# Give a little time to get ping data.
 		yield(get_tree().create_timer(2.0), "timeout")
 		SyncManager.start()
+
+remotesync func setup_match(info: Dictionary) -> void:
+	johnny.set_seed(info['mother_seed'])
+	$ClientPlayer.rng.set_seed(johnny.randi())
+	$ServerPlayer.rng.set_seed(johnny.randi())
 
 func _on_network_peer_disconnected(peer_id: int):
 	message_label.text = "Disconnected"
