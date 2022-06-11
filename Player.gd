@@ -25,6 +25,8 @@ func _get_local_input() -> Dictionary:
 func _predict_remote_input(previous_input: Dictionary, ticks_since_real_input: int) -> Dictionary:
 	var input = previous_input.duplicate()
 	input.erase("drop_bomb")
+	if ticks_since_real_input > 2:
+		input.erase("input_vector")
 	return input
 
 func _network_process(input: Dictionary) -> void:
