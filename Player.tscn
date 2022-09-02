@@ -1,14 +1,33 @@
-[gd_scene load_steps=4 format=2]
+[gd_scene load_steps=7 format=2]
 
 [ext_resource path="res://icon.png" type="Texture" id=1]
 [ext_resource path="res://Player.gd" type="Script" id=2]
 [ext_resource path="res://addons/godot-rollback-netcode/NetworkRandomNumberGenerator.gd" type="Script" id=3]
+[ext_resource path="res://StateMachine.gd" type="Script" id=4]
+[ext_resource path="res://BaseState.gd" type="Script" id=5]
 
-[node name="Player" type="Node2D" groups=["network_sync"]]
+[sub_resource type="SGRectangleShape2D" id=1]
+extents_x = 2097152
+extents_y = 2097152
+
+[node name="Player" type="SGKinematicBody2D"]
 script = ExtResource( 2 )
 
 [node name="Sprite" type="Sprite" parent="."]
 texture = ExtResource( 1 )
+centered = false
 
 [node name="NetworkRandomNumberGenerator" type="Node" parent="."]
 script = ExtResource( 3 )
+
+[node name="StateMachine" type="Node" parent="." groups=["network_sync"]]
+script = ExtResource( 4 )
+
+[node name="BaseState" type="Node" parent="StateMachine"]
+script = ExtResource( 5 )
+
+[node name="SGCollisionShape2D" type="SGCollisionShape2D" parent="."]
+position = Vector2( 32, 32 )
+fixed_position_x = 2097152
+fixed_position_y = 2097152
+shape = SubResource( 1 )

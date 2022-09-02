@@ -1,8 +1,8 @@
 extends "res://addons/godot-rollback-netcode/MessageSerializer.gd"
 
 const input_path_mapping := {
-	'/root/Main/ServerPlayer': 1,
-	'/root/Main/ClientPlayer': 2,
+	'/root/Main/ServerPlayer/StateMachine': 1,
+	'/root/Main/ClientPlayer/StateMachine': 2,
 }
 
 enum HeaderFlags {
@@ -31,7 +31,7 @@ func serialize_input(all_input: Dictionary) -> PoolByteArray:
 		var header := 0
 		
 		var input = all_input[path]
-		if input.has('input_vector'):
+		if input.has('input_vector_x') or input.has('input_vector_y'):
 			header |= HeaderFlags.HAS_INPUT_VECTOR
 		if input.get('drop_bomb', false):
 			header |= HeaderFlags.DROP_BOMB
@@ -40,10 +40,12 @@ func serialize_input(all_input: Dictionary) -> PoolByteArray:
 		
 		buffer.put_u8(header)
 		
-		if input.has('input_vector'):
-			var input_vector: Vector2 = input['input_vector']
-			buffer.put_float(input_vector.x)
-			buffer.put_float(input_vector.y)
+		if input.has('input_vector_x'):
+			var input_vector_x = input['input_vector_x']
+			buffer.put_u64(input_vector_x)
+		if input.has('input_vector_y'):
+			var input_vector_y = input['input_vector_y']
+			buffer.put_u64(input_vector_y)
 	
 	buffer.resize(buffer.get_position())
 	return buffer.data_array
@@ -66,7 +68,8 @@ func unserialize_input(serialized: PoolByteArray) -> Dictionary:
 	
 	var header = buffer.get_u8()
 	if header & HeaderFlags.HAS_INPUT_VECTOR:
-		input["input_vector"] = Vector2(buffer.get_float(), buffer.get_float())
+		input["input_vector_y"] = buffer.get_u64()
+		input["input_vector_x"] = buffer.get_u64()
 	if header & HeaderFlags.DROP_BOMB:
 		input["drop_bomb"] = true
 	if header & HeaderFlags.TELEPORT:

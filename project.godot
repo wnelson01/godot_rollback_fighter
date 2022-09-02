@@ -23,11 +23,23 @@ _global_script_classes=[ {
 "class": "NetworkTimer",
 "language": "GDScript",
 "path": "res://addons/godot-rollback-netcode/NetworkTimer.gd"
+}, {
+"base": "Node",
+"class": "State",
+"language": "GDScript",
+"path": "res://state_machine/state.gd"
+}, {
+"base": "Node",
+"class": "StateMachine",
+"language": "GDScript",
+"path": "res://state_machine/state_machine.gd"
 } ]
 _global_script_class_icons={
 "NetworkAnimationPlayer": "",
 "NetworkRandomNumberGenerator": "",
-"NetworkTimer": ""
+"NetworkTimer": "",
+"State": "",
+"StateMachine": ""
 }
 
 [application]
