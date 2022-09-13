@@ -1,16 +1,13 @@
 extends State
 
 func network_process(input: Dictionary) -> void:
-	print(owner.speed)
-	var input_vector := SGFixedVector2.new()
-	input_vector.x = input.get("input_vector_x", int(0))
-	input_vector.y = input.get("input_vector_y", int(0))
-	if input_vector.x != 0 or input_vector.y != 0:
+	owner.velocity.x = input.get("input_vector_x", int(0))
+	owner.velocity.y = input.get("input_vector_y", int(0))
+	if owner.velocity.x != 0 or owner.velocity.y != 0:
 		if owner.speed < 16:
 			owner.speed += 1
-		#owner.position += input_vector * owner.speed
-		input_vector.imul(owner.speed * 65536)
-		owner.move_and_slide(input_vector)
+		owner.velocity.imul(owner.speed * 65536)
+		owner.velocity = owner.move_and_slide(owner.velocity)
 	else:
 		owner.speed = 0
 	
@@ -22,4 +19,3 @@ func network_process(input: Dictionary) -> void:
 		owner.teleporting = true
 	else:
 		owner.teleporting = false
-	owner.sync_to_physics_engine()

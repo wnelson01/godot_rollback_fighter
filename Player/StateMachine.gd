@@ -4,26 +4,29 @@ var input_prefix := "player1_"
 
 func _save_state() -> Dictionary:
 	return {
-		position = owner.position,
 		speed = owner.speed,
 		teleporting = owner.teleporting,
+		fixed_position_x = owner.fixed_position.x,
+		fixed_position_y = owner.fixed_position.y,
+		velocity_x = owner.velocity.x,
+		velocity_y = owner.velocity.y,
 	}
 
 func _load_state(state: Dictionary) -> void:
-	owner.position = state['position']
 	owner.speed = state['speed']
 	owner.teleporting = state['teleporting']
+	owner.velocity.x = state['velocity_x']
+	owner.velocity.y = state['velocity_y']
+	owner.fixed_position.x = state['fixed_position_x']
+	owner.fixed_position.y = state['fixed_position_y']
 	owner.sync_to_physics_engine()
 	
 func _interpolate_state(old_state: Dictionary, new_state: Dictionary, weight: float) -> void:
-	if old_state.get('teleporting', false) or new_state.get('teleporting', false):
-		return
-	owner.position = lerp(old_state['position'], new_state['position'], weight)
+	pass
 	
 func _get_local_input() -> Dictionary:
 	var input_vector := SGFixedVector2.new()
 	input_vector.from_float(Input.get_vector(input_prefix + "left", input_prefix + "right", input_prefix + "up", input_prefix + "down").normalized())
-	print(input_vector.x, input_vector.y)
 	var input := {}
 	if input_vector.x != 0 or input_vector.y != 0:
 		input['input_vector_x'] = input_vector.x

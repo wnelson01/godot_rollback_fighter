@@ -68,8 +68,8 @@ func unserialize_input(serialized: PoolByteArray) -> Dictionary:
 	
 	var header = buffer.get_u8()
 	if header & HeaderFlags.HAS_INPUT_VECTOR:
-		input["input_vector_y"] = buffer.get_u64()
 		input["input_vector_x"] = buffer.get_u64()
+		input["input_vector_y"] = buffer.get_u64()
 	if header & HeaderFlags.DROP_BOMB:
 		input["drop_bomb"] = true
 	if header & HeaderFlags.TELEPORT:

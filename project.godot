@@ -54,9 +54,17 @@ SyncManager="*res://addons/godot-rollback-netcode/SyncManager.gd"
 SyncDebugger="*res://addons/godot-rollback-netcode/SyncDebugger.gd"
 SyncReplay="*res://addons/godot-rollback-netcode/SyncReplay.gd"
 
+[debug]
+
+multirun/number_of_windows=2
+multirun/window_distance=1270
+multirun/add_custom_args=true
+multirun/first_window_args="listen"
+multirun/other_window_args="join"
+
 [editor_plugins]
 
-enabled=PoolStringArray( "res://addons/godot-rollback-netcode/plugin.cfg" )
+enabled=PoolStringArray( "res://addons/godot-rollback-netcode/plugin.cfg", "res://addons/multirun/plugin.cfg" )
 
 [input]
 
@@ -129,7 +137,6 @@ player2_teleport={
 [network]
 
 rollback/max_buffer_size=10
-rollback/interpolation=true
 rollback/sound_manager/default_sound_bus="Sound"
 rollback/classes/message_serializer="res://CustomMessageSerializer.gd"
 rollback/debug/rollback_ticks=4
