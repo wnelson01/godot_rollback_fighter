@@ -12,7 +12,10 @@ func network_process(input: Dictionary) -> void:
 		owner.speed = 0
 	
 	if input.get("drop_bomb", false):
-		SyncManager.spawn("Bomb", get_parent(), owner.Bomb, { position = owner.global_position })
+		SyncManager.spawn("Bomb", get_parent(), owner.Bomb, {
+			position_x = owner.fixed_position.x,
+			position_y = owner.fixed_position.y
+		})
 	
 	if input.get("teleport", false):
 		owner.position = Vector2(owner.rng.randi() % 1024, owner.rng.randi() % 600)

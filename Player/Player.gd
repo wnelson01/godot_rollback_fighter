@@ -3,7 +3,7 @@ extends SGKinematicBody2D
 onready var velocity := SGFixedVector2.new()
 
 
-const Bomb = preload("res://Bomb.tscn")
+const Bomb = preload("res://Bomb/Bomb.tscn")
 
 onready var rng = $NetworkRandomNumberGenerator
 
