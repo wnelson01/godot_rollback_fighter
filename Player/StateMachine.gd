@@ -10,6 +10,7 @@ func _save_state() -> Dictionary:
 		fixed_position_y = owner.fixed_position.y,
 		velocity_x = owner.velocity.x,
 		velocity_y = owner.velocity.y,
+		state = state.get_path()
 	}
 
 func _load_state(state: Dictionary) -> void:
@@ -20,6 +21,7 @@ func _load_state(state: Dictionary) -> void:
 	owner.fixed_position.x = state['fixed_position_x']
 	owner.fixed_position.y = state['fixed_position_y']
 	owner.sync_to_physics_engine()
+	self.state = get_node(state['state'])
 	
 func _interpolate_state(old_state: Dictionary, new_state: Dictionary, weight: float) -> void:
 	pass

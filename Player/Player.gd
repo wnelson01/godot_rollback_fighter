@@ -1,7 +1,10 @@
 extends SGKinematicBody2D
 
-onready var velocity := SGFixedVector2.new()
+const SPEED = 196608
+const GRAVITY = 32768
+const JUMP = 65536 * 15
 
+var velocity := SGFixedVector2.new()
 
 const Bomb = preload("res://Bomb/Bomb.tscn")
 
