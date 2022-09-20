@@ -1,16 +1,19 @@
 class_name StateMachine
 extends Node
 
-export(NodePath) var state
+signal state_changed(new_state)
+
+export(NodePath) var current_state
 
 func set_state(new_state):
-	state = new_state
+	current_state = get_node(new_state)
+	emit_signal("state_changed", current_state.get_path())
 
 func _ready() -> void:
-	if state == null:
-		state = get_node(get_child(0).get_path())
+	if current_state == null:
+		set_state(get_child(0).get_path())
 	else:
-		state = get_node(state)
+		set_state(current_state)
 
 func _save_state() -> Dictionary:
 	return {}

@@ -1,6 +1,9 @@
 class_name State
 extends Node
 
+export(NodePath) var state_machine
+signal change_state(new_state)
+
 func save_state() -> Dictionary:
 	return {}
 
@@ -23,4 +26,7 @@ func network_preprocess(input: Dictionary) -> void:
 	pass
 	
 func network_postprocess(input: Dictionary) -> void:
+	pass
+
+func _on_entry(_args) -> void:
 	pass

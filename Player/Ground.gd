@@ -23,3 +23,8 @@ func network_process(input: Dictionary) -> void:
 	else:
 		owner.teleporting = false
 	.network_process(input)
+	
+	if input.get("jump", false):
+		owner.velocity.y = -owner.JUMP
+		emit_signal('change_state', 'Free/Air')
+		

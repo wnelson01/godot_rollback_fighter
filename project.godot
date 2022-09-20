@@ -9,6 +9,11 @@
 config_version=4
 
 _global_script_classes=[ {
+"base": "FreeState",
+"class": "AirState",
+"language": "GDScript",
+"path": "res://Player/Air.gd"
+}, {
 "base": "State",
 "class": "FreeState",
 "language": "GDScript",
@@ -45,6 +50,7 @@ _global_script_classes=[ {
 "path": "res://state_machine/state_machine.gd"
 } ]
 _global_script_class_icons={
+"AirState": "",
 "FreeState": "",
 "GroundState": "",
 "NetworkAnimationPlayer": "",
@@ -56,7 +62,7 @@ _global_script_class_icons={
 
 [application]
 
-config/name="Rollback Tutorial"
+config/name="Godot Rollback Fighter"
 run/main_scene="res://Main.tscn"
 config/icon="res://icon.png"
 
@@ -107,6 +113,11 @@ player1_right={
 }
 player1_bomb={
 "deadzone": 0.5,
+"events": [ Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":0,"alt":false,"shift":false,"control":false,"meta":false,"command":false,"pressed":false,"scancode":0,"physical_scancode":81,"unicode":0,"echo":false,"script":null)
+ ]
+}
+player1_jump={
+"deadzone": 0.5,
 "events": [ Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":0,"alt":false,"shift":false,"control":false,"meta":false,"command":false,"pressed":false,"scancode":0,"physical_scancode":32,"unicode":0,"echo":false,"script":null)
  ]
 }
@@ -132,7 +143,7 @@ player2_right={
 }
 player2_bomb={
 "deadzone": 0.5,
-"events": [ Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":0,"alt":false,"shift":false,"control":false,"meta":false,"command":false,"pressed":false,"scancode":0,"physical_scancode":16777221,"unicode":0,"echo":false,"script":null)
+"events": [ Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":0,"alt":false,"shift":false,"control":false,"meta":false,"command":false,"pressed":false,"scancode":0,"physical_scancode":81,"unicode":0,"echo":false,"script":null)
  ]
 }
 player1_teleport={
@@ -143,6 +154,11 @@ player1_teleport={
 player2_teleport={
 "deadzone": 0.5,
 "events": [ Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":0,"alt":false,"shift":false,"control":false,"meta":false,"command":false,"pressed":false,"scancode":0,"physical_scancode":92,"unicode":0,"echo":false,"script":null)
+ ]
+}
+player2_jump={
+"deadzone": 0.5,
+"events": [ Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":0,"alt":false,"shift":false,"control":false,"meta":false,"command":false,"pressed":false,"scancode":0,"physical_scancode":32,"unicode":0,"echo":false,"script":null)
  ]
 }
 

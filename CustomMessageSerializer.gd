@@ -9,6 +9,7 @@ enum HeaderFlags {
 	HAS_INPUT_VECTOR = 1 << 0, # Bit 0
 	DROP_BOMB        = 1 << 1, # Bit 1
 	TELEPORT         = 1 << 2, # Bit 2
+	JUMP				= 1 << 3,
 }
 
 var input_path_mapping_reverse := {}
@@ -19,7 +20,7 @@ func _init() -> void:
 
 func serialize_input(all_input: Dictionary) -> PoolByteArray:
 	var buffer := StreamPeerBuffer.new()
-	buffer.resize(16)
+	buffer.resize(32)
 	
 	buffer.put_u32(all_input['$'])
 	buffer.put_u8(all_input.size() - 1)
@@ -37,6 +38,8 @@ func serialize_input(all_input: Dictionary) -> PoolByteArray:
 			header |= HeaderFlags.DROP_BOMB
 		if input.get('teleport', false):
 			header |= HeaderFlags.TELEPORT
+		if input.get('jump', false):
+			header |= HeaderFlags.JUMP
 		
 		buffer.put_u8(header)
 		
@@ -74,6 +77,8 @@ func unserialize_input(serialized: PoolByteArray) -> Dictionary:
 		input["drop_bomb"] = true
 	if header & HeaderFlags.TELEPORT:
 		input["teleport"] = true
+	if header & HeaderFlags.JUMP:
+		input['jump'] = true
 	
 	all_input[path] = input
 	return all_input
