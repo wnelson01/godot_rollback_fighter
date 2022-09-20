@@ -1,4 +1,5 @@
-extends State
+class_name GroundState
+extends FreeState
 
 func network_process(input: Dictionary) -> void:
 	owner.velocity.x = input.get("input_vector_x", int(0))
@@ -7,7 +8,6 @@ func network_process(input: Dictionary) -> void:
 		if owner.speed < 16:
 			owner.speed += 1
 		owner.velocity.imul(owner.speed * 65536)
-		owner.velocity = owner.move_and_slide(owner.velocity)
 	else:
 		owner.speed = 0
 	
@@ -22,3 +22,4 @@ func network_process(input: Dictionary) -> void:
 		owner.teleporting = true
 	else:
 		owner.teleporting = false
+	.network_process(input)

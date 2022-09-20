@@ -9,6 +9,16 @@
 config_version=4
 
 _global_script_classes=[ {
+"base": "State",
+"class": "FreeState",
+"language": "GDScript",
+"path": "res://Player/Free.gd"
+}, {
+"base": "FreeState",
+"class": "GroundState",
+"language": "GDScript",
+"path": "res://Player/Ground.gd"
+}, {
 "base": "AnimationPlayer",
 "class": "NetworkAnimationPlayer",
 "language": "GDScript",
@@ -35,6 +45,8 @@ _global_script_classes=[ {
 "path": "res://state_machine/state_machine.gd"
 } ]
 _global_script_class_icons={
+"FreeState": "",
+"GroundState": "",
 "NetworkAnimationPlayer": "",
 "NetworkRandomNumberGenerator": "",
 "NetworkTimer": "",

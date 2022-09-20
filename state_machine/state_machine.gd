@@ -3,8 +3,14 @@ extends Node
 
 export(NodePath) var state
 
+func set_state(new_state):
+	state = new_state
+
 func _ready() -> void:
-	state = get_node(get_child(0).get_path())
+	if state == null:
+		state = get_node(get_child(0).get_path())
+	else:
+		state = get_node(state)
 
 func _save_state() -> Dictionary:
 	return {}
