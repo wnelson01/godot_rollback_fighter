@@ -58,13 +58,11 @@ func _network_process(input: Dictionary) -> void:
 func _network_postprocess(input: Dictionary) -> void:
 	current_state.network_postprocess(input)
 	
-
 func _on_Ground_change_state(state):
 	set_state(state)
 
-func _on_Air_on_ground():
-	set_state('Free/Ground')
-	owner.label.text = 'on ground signal received'
-
 func _on_Air_change_state(new_state):
+	set_state(new_state)
+
+func _on_Rising_change_state(new_state):
 	set_state(new_state)

@@ -1,4 +1,4 @@
-[gd_scene load_steps=10 format=2]
+[gd_scene load_steps=12 format=2]
 
 [ext_resource path="res://Player/Player.gd" type="Script" id=1]
 [ext_resource path="res://icon.png" type="Texture" id=2]
@@ -8,6 +8,8 @@
 [ext_resource path="res://Player/Air.gd" type="Script" id=6]
 [ext_resource path="res://Player/Free.gd" type="Script" id=7]
 [ext_resource path="res://Player/Label.gd" type="Script" id=8]
+[ext_resource path="res://Player/Rising.gd" type="Script" id=9]
+[ext_resource path="res://Player/Falling.gd" type="Script" id=10]
 
 [sub_resource type="SGRectangleShape2D" id=1]
 extents_x = 2097152
@@ -15,6 +17,9 @@ extents_y = 2097152
 
 [node name="Player" type="SGKinematicBody2D"]
 script = ExtResource( 1 )
+jump_height = 4.0
+jump_time_to_peak = 0.15
+jump_time_to_descent = 0.1
 
 [node name="Sprite" type="Sprite" parent="."]
 texture = ExtResource( 2 )
@@ -37,8 +42,13 @@ script = ExtResource( 4 )
 [node name="Air" type="Node" parent="StateMachine/Free"]
 script = ExtResource( 6 )
 
+[node name="Rising" type="Node" parent="StateMachine/Free/Air"]
+script = ExtResource( 9 )
+
+[node name="Falling" type="Node" parent="StateMachine/Free/Air"]
+script = ExtResource( 10 )
+
 [node name="SGCollisionShape2D" type="SGCollisionShape2D" parent="."]
-visible = false
 position = Vector2( 32, 32 )
 fixed_position_x = 2097152
 fixed_position_y = 2097152
@@ -57,4 +67,4 @@ __meta__ = {
 [connection signal="state_changed" from="StateMachine" to="Label" method="_on_StateMachine_state_changed"]
 [connection signal="change_state" from="StateMachine/Free/Ground" to="StateMachine" method="_on_Ground_change_state"]
 [connection signal="change_state" from="StateMachine/Free/Air" to="StateMachine" method="_on_Air_change_state"]
-[connection signal="on_ground" from="StateMachine/Free/Air" to="StateMachine" method="_on_Air_on_ground"]
+[connection signal="change_state" from="StateMachine/Free/Air/Rising" to="StateMachine" method="_on_Rising_change_state"]
