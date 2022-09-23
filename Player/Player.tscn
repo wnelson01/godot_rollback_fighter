@@ -1,4 +1,4 @@
-[gd_scene load_steps=12 format=2]
+[gd_scene load_steps=14 format=2]
 
 [ext_resource path="res://Player/Player.gd" type="Script" id=1]
 [ext_resource path="res://icon.png" type="Texture" id=2]
@@ -15,6 +15,12 @@
 extents_x = 2097152
 extents_y = 2097152
 
+[sub_resource type="SGCircleShape2D" id=2]
+radius = 1246907
+
+[sub_resource type="SGCircleShape2D" id=3]
+radius = 1246907
+
 [node name="Player" type="SGKinematicBody2D"]
 script = ExtResource( 1 )
 jump_height = 4.0
@@ -30,7 +36,7 @@ script = ExtResource( 3 )
 
 [node name="StateMachine" type="Node" parent="." groups=["network_sync"]]
 script = ExtResource( 5 )
-current_state = NodePath("Free/Ground")
+current_state = NodePath("Free/Air/Falling")
 
 [node name="Free" type="Node" parent="StateMachine"]
 script = ExtResource( 7 )
@@ -63,6 +69,22 @@ script = ExtResource( 8 )
 __meta__ = {
 "_edit_use_anchors_": true
 }
+
+[node name="Fist" type="SGArea2D" parent="."]
+position = Vector2( -1, 0 )
+fixed_position_x = -65536
+
+[node name="right" type="SGCollisionShape2D" parent="Fist"]
+position = Vector2( 86, 34 )
+fixed_position_x = 5636096
+fixed_position_y = 2228224
+shape = SubResource( 2 )
+
+[node name="left" type="SGCollisionShape2D" parent="Fist"]
+position = Vector2( -20, 32 )
+fixed_position_x = -1310720
+fixed_position_y = 2097152
+shape = SubResource( 3 )
 
 [connection signal="state_changed" from="StateMachine" to="Label" method="_on_StateMachine_state_changed"]
 [connection signal="change_state" from="StateMachine/Free/Ground" to="StateMachine" method="_on_Ground_change_state"]

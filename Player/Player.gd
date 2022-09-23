@@ -22,6 +22,7 @@ const Bomb = preload("res://Bomb/Bomb.tscn")
 onready var rng = $NetworkRandomNumberGenerator
 onready var label = $Label
 onready var state_machine = $StateMachine
+onready var fist = $Fist
 
 var input_prefix := "player1_"
 

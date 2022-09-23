@@ -22,10 +22,16 @@ func network_process(input: Dictionary) -> void:
 		owner.teleporting = true
 	else:
 		owner.teleporting = false
-	
+
+		
 	if input.get("jump", false):
 #		owner.velocity.y = -owner.JUMP
 		owner.velocity.y = -owner.jump_velocity
 		emit_signal('change_state', 'Free/Air/Rising')
 		
 	get_parent().network_process(input)
+	
+func network_postprocess(input: Dictionary) -> void:
+#	if !owner.is_on_floor():
+#		emit_signal('change_state', 'Free/Air/Falling')
+	get_parent().network_postprocess(input)
