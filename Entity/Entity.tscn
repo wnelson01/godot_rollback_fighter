@@ -1,4 +1,4 @@
-[gd_scene load_steps=14 format=2]
+[gd_scene load_steps=16 format=2]
 
 [ext_resource path="res://Entity/Player.gd" type="Script" id=1]
 [ext_resource path="res://icon.png" type="Texture" id=2]
@@ -10,16 +10,19 @@
 [ext_resource path="res://Entity/Label.gd" type="Script" id=8]
 [ext_resource path="res://Entity/Rising.gd" type="Script" id=9]
 [ext_resource path="res://Entity/Falling.gd" type="Script" id=10]
+[ext_resource path="res://Overlap/HitBox.tscn" type="PackedScene" id=11]
+[ext_resource path="res://Overlap/HurtBox.tscn" type="PackedScene" id=12]
 
 [sub_resource type="SGRectangleShape2D" id=1]
 extents_x = 2097152
 extents_y = 2097152
 
-[sub_resource type="SGCircleShape2D" id=2]
-radius = 1246907
+[sub_resource type="SGCapsuleShape2D" id=2]
+radius = 3801653
 
-[sub_resource type="SGCircleShape2D" id=3]
-radius = 1246907
+[sub_resource type="SGCapsuleShape2D" id=3]
+radius = 1967172
+height = 559939
 
 [node name="Player" type="SGKinematicBody2D"]
 script = ExtResource( 1 )
@@ -70,23 +73,31 @@ __meta__ = {
 "_edit_use_anchors_": true
 }
 
-[node name="Fist" type="SGArea2D" parent="."]
+[node name="HitBox" parent="." instance=ExtResource( 11 )]
+position = Vector2( 158, -1 )
+fixed_position_x = 10354688
+fixed_position_y = -65536
+
+[node name="SGCollisionShape2D" parent="HitBox" index="0"]
+position = Vector2( -125, 35 )
+fixed_position_x = -8192000
+fixed_position_y = 2293760
+shape = SubResource( 2 )
+
+[node name="HurtBox" parent="." instance=ExtResource( 12 )]
 position = Vector2( -1, 0 )
 fixed_position_x = -65536
 
-[node name="right" type="SGCollisionShape2D" parent="Fist"]
-position = Vector2( 86, 34 )
-fixed_position_x = 5636096
-fixed_position_y = 2228224
-shape = SubResource( 2 )
-
-[node name="left" type="SGCollisionShape2D" parent="Fist"]
-position = Vector2( -20, 32 )
-fixed_position_x = -1310720
-fixed_position_y = 2097152
+[node name="SGCollisionShape2D" parent="HurtBox" index="0"]
+position = Vector2( 34, 33 )
+fixed_position_x = 2228224
+fixed_position_y = 2162688
 shape = SubResource( 3 )
 
 [connection signal="state_changed" from="StateMachine" to="Label" method="_on_StateMachine_state_changed"]
 [connection signal="change_state" from="StateMachine/Free/Ground" to="StateMachine" method="_on_Ground_change_state"]
 [connection signal="change_state" from="StateMachine/Free/Air" to="StateMachine" method="_on_Air_change_state"]
 [connection signal="change_state" from="StateMachine/Free/Air/Rising" to="StateMachine" method="_on_Rising_change_state"]
+
+[editable path="HitBox"]
+[editable path="HurtBox"]

@@ -126,22 +126,49 @@ __meta__ = {
 }
 
 [node name="ServerPlayer" parent="." instance=ExtResource( 2 )]
-position = Vector2( 256, 192 )
-fixed_position_x = 16777216
-fixed_position_y = 12582912
+position = Vector2( 245, 87 )
+fixed_position_x = 16056320
+fixed_position_y = 5701632
+collision_mask = 6
+
+[node name="HitBox" parent="ServerPlayer" index="5"]
+collision_mask = 2
+
+[node name="HurtBox" parent="ServerPlayer" index="6"]
+collision_mask = 2
 
 [node name="ClientPlayer" parent="." instance=ExtResource( 2 )]
-position = Vector2( 768, 192 )
-fixed_position_x = 50331648
-fixed_position_y = 12582912
+position = Vector2( 775, 74 )
+fixed_position_x = 50790400
+fixed_position_y = 4849664
+collision_layer = 2
+collision_mask = 5
+
+[node name="HitBox" parent="ClientPlayer" index="5"]
+collision_layer = 2
+
+[node name="HurtBox" parent="ClientPlayer" index="6"]
+collision_layer = 2
 
 [node name="Johnny" type="Node" parent="."]
 script = ExtResource( 3 )
 
 [node name="TileMap" parent="." instance=ExtResource( 4 )]
 
+[node name="SGStaticBody2D" parent="TileMap" index="1"]
+collision_layer = 4
+collision_mask = 3
+
 [connection signal="pressed" from="CanvasLayer/MainMenu/LocalButton" to="." method="_on_LocalButton_pressed"]
 [connection signal="pressed" from="CanvasLayer/MainMenu/OnlineButton" to="." method="_on_OnlineButton_pressed"]
 [connection signal="pressed" from="CanvasLayer/ConnectionPanel/GridContainer/ServerButton" to="." method="_on_ServerButton_pressed"]
 [connection signal="pressed" from="CanvasLayer/ConnectionPanel/GridContainer/ClientButton" to="." method="_on_ClientButton_pressed"]
 [connection signal="pressed" from="CanvasLayer/ResetButton" to="." method="_on_ResetButton_pressed"]
+
+[editable path="ServerPlayer"]
+[editable path="ServerPlayer/HitBox"]
+[editable path="ServerPlayer/HurtBox"]
+[editable path="ClientPlayer"]
+[editable path="ClientPlayer/HitBox"]
+[editable path="ClientPlayer/HurtBox"]
+[editable path="TileMap"]

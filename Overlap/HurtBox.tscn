@@ -1,6 +1,6 @@
 [gd_scene format=2]
 
-[node name="SGArea2D" type="SGArea2D"]
+[node name="HurtBox" type="SGArea2D"]
 modulate = Color( 0.541176, 0.788235, 0.14902, 1 )
 
 [node name="SGCollisionShape2D" type="SGCollisionShape2D" parent="."]
