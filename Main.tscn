@@ -1,9 +1,27 @@
-[gd_scene load_steps=5 format=2]
+[gd_scene load_steps=11 format=2]
 
 [ext_resource path="res://Main.gd" type="Script" id=1]
 [ext_resource path="res://Entity/Entity.tscn" type="PackedScene" id=2]
 [ext_resource path="res://addons/godot-rollback-netcode/NetworkRandomNumberGenerator.gd" type="Script" id=3]
 [ext_resource path="res://Platforms/Platform.tscn" type="PackedScene" id=4]
+
+[sub_resource type="SGCapsuleShape2D" id=1]
+radius = 1839683
+
+[sub_resource type="SGCapsuleShape2D" id=2]
+radius = 3541370
+
+[sub_resource type="SGCapsuleShape2D" id=3]
+radius = 3605075
+
+[sub_resource type="SGCapsuleShape2D" id=4]
+radius = 1901673
+
+[sub_resource type="SGCapsuleShape2D" id=5]
+radius = 4065345
+
+[sub_resource type="SGCapsuleShape2D" id=6]
+radius = 4063760
 
 [node name="Main" type="Node2D"]
 script = ExtResource( 1 )
@@ -131,11 +149,22 @@ fixed_position_x = 16056320
 fixed_position_y = 5701632
 collision_mask = 6
 
+[node name="SGCollisionShape2D" parent="ServerPlayer" index="3"]
+shape = SubResource( 1 )
+
 [node name="HitBox" parent="ServerPlayer" index="5"]
+collision_layer = 1
 collision_mask = 2
 
+[node name="SGCollisionShape2D" parent="ServerPlayer/HitBox" index="0"]
+shape = SubResource( 2 )
+
 [node name="HurtBox" parent="ServerPlayer" index="6"]
+collision_layer = 1
 collision_mask = 2
+
+[node name="SGCollisionShape2D" parent="ServerPlayer/HurtBox" index="0"]
+shape = SubResource( 3 )
 
 [node name="ClientPlayer" parent="." instance=ExtResource( 2 )]
 position = Vector2( 775, 74 )
@@ -144,20 +173,27 @@ fixed_position_y = 4849664
 collision_layer = 2
 collision_mask = 5
 
+[node name="SGCollisionShape2D" parent="ClientPlayer" index="3"]
+shape = SubResource( 4 )
+
 [node name="HitBox" parent="ClientPlayer" index="5"]
 collision_layer = 2
+collision_mask = 1
+
+[node name="SGCollisionShape2D" parent="ClientPlayer/HitBox" index="0"]
+shape = SubResource( 5 )
 
 [node name="HurtBox" parent="ClientPlayer" index="6"]
 collision_layer = 2
+collision_mask = 1
+
+[node name="SGCollisionShape2D" parent="ClientPlayer/HurtBox" index="0"]
+shape = SubResource( 6 )
 
 [node name="Johnny" type="Node" parent="."]
 script = ExtResource( 3 )
 
 [node name="TileMap" parent="." instance=ExtResource( 4 )]
-
-[node name="SGStaticBody2D" parent="TileMap" index="1"]
-collision_layer = 4
-collision_mask = 3
 
 [connection signal="pressed" from="CanvasLayer/MainMenu/LocalButton" to="." method="_on_LocalButton_pressed"]
 [connection signal="pressed" from="CanvasLayer/MainMenu/OnlineButton" to="." method="_on_OnlineButton_pressed"]

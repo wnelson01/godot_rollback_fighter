@@ -3,8 +3,9 @@ extends State
 
 func network_process(input: Dictionary) -> void:
 	owner.velocity = owner.move_and_slide(owner.velocity, owner.up_direction)
-	if owner.hit_box.get_overlapping_body_count() != 0:
-		print(owner.hit_box.get_overlapping_bodies())
+	owner.hit_box.sync_to_physics_engine()
+	for area in owner.hit_box.get_overlapping_areas():
+		print(area)
 	
 func network_postprocess(input: Dictionary) -> void:
 	pass
